@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS students (
+    jmbag VARCHAR(10) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    oib VARCHAR(11) NOT NULL,
+    age INT
+);
