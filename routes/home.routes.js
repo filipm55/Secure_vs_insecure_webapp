@@ -61,7 +61,7 @@ router.post('/secure-student-info', async(req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const result = await pool.query(`SELECT username, password FROM users WHERE username = '${username}'`); 
+    const result = await pool.query(`SELECT username, password FROM users2 WHERE username = '${username}'`); 
     if(result.rows.length === 0){
         req.session.loginError = "No username found in the database";
         res.status(404).redirect('/');
@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/secure-login', async (req, res) => {
     const { username, password } = req.body;
-    const { rows } = await pool.query('SELECT username, password, login_attempts, lock_until FROM users WHERE username = $1', [username]);
+    const { rows } = await pool.query('SELECT username, password, login_attempts, lock_until FROM users2 WHERE username = $1', [username]);
     const user = rows[0];
     if (!user){
         await new Promise(resolve => setTimeout(resolve, 300));
@@ -101,13 +101,13 @@ router.post('/secure-login', async (req, res) => {
             lockUntil = new Date(Date.now() + 1 * 60 * 1000); 
             loginAttempts = 0;
         }
-        await pool.query('UPDATE users SET login_attempts = $1, lock_until = $2 WHERE username = $3', 
+        await pool.query('UPDATE users2 SET login_attempts = $1, lock_until = $2 WHERE username = $3', 
             [loginAttempts, lockUntil, username]);
         req.session.loginError = "Invalid username or password";
         res.redirect('/');
         return;
     }
-    await pool.query('UPDATE users SET login_attempts = 0, lock_until = NULL WHERE username = $1', [username]);
+    await pool.query('UPDATE users2 SET login_attempts = 0, lock_until = NULL WHERE username = $1', [username]);
     req.session.loginError = null;
     req.session.user = username;
     res.redirect('/');

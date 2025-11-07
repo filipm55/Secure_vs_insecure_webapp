@@ -40,9 +40,9 @@ async function initializeDatabase() {
 await initializeDatabase().catch(err => console.error('Error initializing database', err));
 
 async function fillDatabaseWithInitialData() {
-    const { rows } = await pool.query('SELECT COUNT(*) AS count FROM users');
+    const { rows: rows1 } = await pool.query('SELECT COUNT(*) AS count FROM students');
   
-    if (parseInt(rows[0].count) > 0) {
+    if (parseInt(rows1[0].count) > 0) {
         return;
     }
     await pool.query(`INSERT INTO students (jmbag, name, surname, oib, age) VALUES
@@ -55,7 +55,13 @@ async function fillDatabaseWithInitialData() {
                     ('0745896321', 'David', 'Tomić', '98765432101', 21),
                     ('0812345679', 'Ema', 'Rogić', '65432109876', 20);
                 `)
-    await pool.query(`INSERT INTO users (username, email, password, jmbag) VALUES
+
+    const { rows: rows2 } = await pool.query('SELECT COUNT(*) AS count FROM users2');
+
+    if (parseInt(rows2[0].count) > 0) {
+        return;
+    }
+    await pool.query(`INSERT INTO users2 (username, email, password, jmbag) VALUES
                     ('marko_horvat', 'marko.horvat@student.hr', 'password123', '0245123987'),
                     ('ana_kovac', 'ana.kovac@student.hr', 'password123', '0312254875'),
                     ('petar_novak', 'petar.novak@student.hr', 'password123', '0198754321'),
