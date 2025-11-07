@@ -24,7 +24,7 @@ function validateJMBAGInput(e) {
 function setLoginAction(e) {
     const cb = document.getElementById("checkbox2");
     const form = document.getElementById("loginForm");  
-    form.action = cb.checked ? "/login" : "/securelogin";
+    form.action = cb.checked ? "/login" : "/secure-login";
     return true;
 }
 

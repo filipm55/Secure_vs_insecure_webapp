@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
    
 });
 
-router.post('/SecureLogin', async (req, res) => {
+router.post('/secure-login', async (req, res) => {
     const { username, password } = req.body;
     const { rows } = await pool.query('SELECT username, password, login_attempts, lock_until FROM users WHERE username = $1', [username]);
     const user = rows[0];
@@ -93,7 +93,7 @@ router.post('/SecureLogin', async (req, res) => {
         res.redirect('/');
         return;
     }
-    // const match = await bcrypt.compare(password, user.password); -> da je password hashiran 
+    // const match = await bcrypt.compare(password, user.password); -> for hashed passwords 
     if (user.password !== password) {
         let loginAttempts = user.login_attempts + 1;
         let lockUntil = null;
