@@ -20,6 +20,20 @@ app.use(session({
       }
   }))
 
+//Secure cookie settings
+// app.use(session({
+//   name: 'sessionID',
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { 
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === 'production',
+//     maxAge: 1 * 60 * 60 * 1000 // 1 hour
+//   }
+// }));
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
