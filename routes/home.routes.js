@@ -37,6 +37,27 @@ router.post('/student-info', (req, res) => {
         });
 });
 
+router.post('/secure-student-info', async(req, res) => {
+    const { jmbag } = req.body;
+    const isNumeric = /^[0-9]+$/.test(jmbag);
+
+    if (!isNumeric){
+        req.session.sqlRows = undefined;
+        req.session.SQLerror = "Invalid JMBAG format";
+        res.redirect('/');
+        return;
+    }
+    const query = 'SELECT * FROM students WHERE jmbag = $1';
+    const rows = await pool.query(query, [jmbag]);
+    if (rows.rows.length === 0){
+        req.session.sqlRows = undefined;
+        req.session.SQLerror = "No student found with the provided JMBAG";
+    }
+    req.session.sqlRows = rows.rows;
+    req.session.SQLerror = null;
+    res.redirect('/');
+});
+
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;

@@ -18,7 +18,7 @@
             </label>
 
             <h3>Please enter your JMBAG to fetch your data:</h3>
-            <form name="SQLinjectionForm" action="/student-info" onsubmit="return validateJMBAGInput()" method="POST">
+            <form id="studentInfoForm" method="POST" onsubmit="return validateJMBAGInput(event)">
                 <input type="text" name="jmbag" placeholder="JMBAG" required>
                 <button type="submit">Submit</button>
                 <p class="error-message" id="jmbagError"></p>
@@ -44,7 +44,6 @@
                     <% }) %>
                 </table>
             <% } %>
-
             <% if (SQLerror) { %>
                 <p class="error-message"><%= SQLerror %></p>
             <% } %>
