@@ -51,10 +51,13 @@ router.post('/secure-student-info', async(req, res) => {
     const rows = await pool.query(query, [jmbag]);
     if (rows.rows.length === 0){
         req.session.sqlRows = undefined;
-        req.session.SQLerror = "No student found with the provided JMBAG";
+        req.session.SQLerror = "Check the JMBAG you entered";
+        
     }
-    req.session.sqlRows = rows.rows;
-    req.session.SQLerror = null;
+    else {
+        req.session.sqlRows = rows.rows;
+        req.session.SQLerror = null;
+    }
     res.redirect('/');
 });
 
